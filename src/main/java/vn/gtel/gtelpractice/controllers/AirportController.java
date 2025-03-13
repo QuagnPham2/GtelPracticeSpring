@@ -33,7 +33,6 @@ public class AirportController {
     @RequestMapping(method = RequestMethod.HEAD)
     public ResponseEntity countAirports() {
         long count =  airportService.countAirports();
-
         return ResponseEntity.ok().header("X-Total-Count", String.valueOf(count)).build();
     }
 
