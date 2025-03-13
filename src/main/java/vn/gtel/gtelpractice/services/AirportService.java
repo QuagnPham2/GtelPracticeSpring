@@ -2,7 +2,6 @@ package vn.gtel.gtelpractice.services;
 
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -79,28 +78,42 @@ public class AirportService {
 
     }
 
-    public void updatePatchAirports(String iata, AirportRequest airportRequest) {
-        Optional<Airport> airport = airportRepository.findById(iata);
-
-        if(airport.isPresent()){
-            Airport airport1 = airport.get();
-            if(airportRequest.getName() != null){
-                airport1.setName(airportRequest.getName());
-            }
-            if(airportRequest.getAirportCode() != null){
-                airport1.setAirportCode(airportRequest.getAirportCode());
-            }
-            if(airportRequest.getLanguage() != null){
-                airport1.setLanguage(airportRequest.getLanguage());
-            }
-            if(airportRequest.getPriority() != null) {
-                airport1.setPriority(airportRequest.getPriority());
-            }
-            airportRepository.save(airport1);
+    public Airport updatePatchAirports(String iata, AirportRequest airportRequest) {
+//        Optional<Airport> airport = airportRepository.findById(iata);
+//
+//        if(airport.isPresent()){
+//            Airport airport1 = airport.get();
+//            if(airportRequest.getName() != null){
+//                airport1.setName(airportRequest.getName());
+//            }
+//            if(airportRequest.getAirportCode() != null){
+//                airport1.setAirportCode(airportRequest.getAirportCode());
+//            }
+//            if(airportRequest.getLanguage() != null){
+//                airport1.setLanguage(airportRequest.getLanguage());
+//            }
+//            if(airportRequest.getPriority() != null) {
+//                airport1.setPriority(airportRequest.getPriority());
+//            }
+//            airportRepository.save(airport1);
+//        }
+//        else {
+//            throw new EntityNotFoundException("Airport not found");
+//
+//        }
+        Airport airport = airportRepository.findById(iata).orElseThrow(() -> new RuntimeException("Airport not found"));
+        if(airportRequest.getName() != null){
+            airport.setName(airportRequest.getName());
         }
-        else {
-            throw new EntityNotFoundException("Airport not found");
-
+        if(airportRequest.getAirportCode() != null){
+            airport.setAirportCode(airportRequest.getAirportCode());
         }
+        if(airportRequest.getLanguage() != null){
+            airport.setLanguage(airportRequest.getLanguage());
+        }
+        if(airportRequest.getPriority() != null) {
+            airport.setPriority(airportRequest.getPriority());
+        }
+        return airportRepository.save(airport);
     }
 }

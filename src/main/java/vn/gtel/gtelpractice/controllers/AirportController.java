@@ -45,15 +45,22 @@ public class AirportController {
     }
 
     @PutMapping("/{iata}")
-    public Airport updateAirport(@PathVariable String iata, @RequestBody AirportRequest airportRequest) {
-        return airportService.updateAirports(iata, airportRequest);
+    public ApiResponse<Airport> updateAirport(@PathVariable String iata, @RequestBody AirportRequest airportRequest) {
+        ApiResponse<Airport> apiResponse =new ApiResponse();
+        apiResponse.setResult(airportService.updateAirports(iata, airportRequest));
+        return apiResponse;
     }
 
     @PatchMapping("/{iata}")
-    public ResponseEntity<String> updatePatchAirport(@PathVariable String iata, @RequestBody AirportRequest airportRequest) {
-        airportService.updatePatchAirports(iata, airportRequest);
-        return ResponseEntity.ok("Updated Airport successfully");
+    public ApiResponse<Airport> updatePatchAirport(@PathVariable String iata, @RequestBody AirportRequest airportRequest) {
+        ApiResponse<Airport> apiResponse =new ApiResponse();
+        apiResponse.setResult(airportService.updatePatchAirports(iata, airportRequest));
+        return apiResponse;
     }
+//    public ResponseEntity<String> updatePatchAirport(@PathVariable String iata, @RequestBody AirportRequest airportRequest) {
+//        airportService.updatePatchAirports(iata, airportRequest);
+//        return ResponseEntity.ok("Updated Airport successfully");
+//    }
 
 
     @DeleteMapping("/{iata}")
