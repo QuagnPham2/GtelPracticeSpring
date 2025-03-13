@@ -9,7 +9,6 @@ import vn.gtel.gtelpractice.dto.response.AirportResponse;
 import vn.gtel.gtelpractice.dto.response.ApiResponse;
 import vn.gtel.gtelpractice.models.Airport;
 import vn.gtel.gtelpractice.services.AirportService;
-
 import java.util.List;
 
 @RestController
@@ -18,10 +17,17 @@ public class AirportController {
     @Autowired
     private AirportService airportService;
 
-    @GetMapping
+    @GetMapping("/pageable")
     public ResponseEntity<List<AirportResponse>> getAirports(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         List<AirportResponse> airports = airportService.getAirports(page, size);
         return ResponseEntity.ok(airports);
+    }
+
+    @GetMapping
+    public ApiResponse<List<Airport>> getAllAirports() {
+        ApiResponse<List<Airport>> apiResponse = new ApiResponse();
+        apiResponse.setResult(airportService.getAllAirports());
+        return apiResponse;
     }
 
     @RequestMapping(method = RequestMethod.HEAD)
@@ -33,8 +39,10 @@ public class AirportController {
 
 
     @GetMapping("/{iata}")
-    public AirportResponse getAirport(@PathVariable String iata) {
-        return airportService.getAirport(iata);
+    public ApiResponse<AirportResponse> getAirport(@PathVariable String iata) {
+        ApiResponse<AirportResponse> apiResponse = new ApiResponse();
+        apiResponse.setResult(airportService.getAirport(iata));
+        return apiResponse;
     }
 
     @PostMapping
@@ -57,11 +65,6 @@ public class AirportController {
         apiResponse.setResult(airportService.updatePatchAirports(iata, airportRequest));
         return apiResponse;
     }
-//    public ResponseEntity<String> updatePatchAirport(@PathVariable String iata, @RequestBody AirportRequest airportRequest) {
-//        airportService.updatePatchAirports(iata, airportRequest);
-//        return ResponseEntity.ok("Updated Airport successfully");
-//    }
-
 
     @DeleteMapping("/{iata}")
     public ResponseEntity<?> deleteAirport(@PathVariable String iata) {

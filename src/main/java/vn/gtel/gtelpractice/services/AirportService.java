@@ -1,7 +1,6 @@
 package vn.gtel.gtelpractice.services;
 
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +14,6 @@ import vn.gtel.gtelpractice.repositories.AirportRepository;
 
 import org.springframework.data.domain.Pageable;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AirportService {
@@ -40,6 +38,10 @@ public class AirportService {
         return airportRepository.count();
     }
 
+    public List<Airport> getAllAirports() {
+        return airportRepository.findAll();
+    }
+
     public AirportResponse getAirport(String iata) {
         Airport airport = airportRepository.findById(iata).orElseThrow(()-> new RuntimeException("Airport nots found"));
         return new AirportResponse(airport.getIata(), airport.getName(), airport.getAirportCode(), airport.getLanguage(), airport.getPriority());
@@ -55,6 +57,7 @@ public class AirportService {
 
         Airport airport = new Airport();
 
+        airport.setIata(request.getIata());
         airport.setName(request.getName());
         airport.setAirportCode(request.getAirportCode());
         airport.setLanguage(request.getLanguage());
@@ -79,28 +82,6 @@ public class AirportService {
     }
 
     public Airport updatePatchAirports(String iata, AirportRequest airportRequest) {
-//        Optional<Airport> airport = airportRepository.findById(iata);
-//
-//        if(airport.isPresent()){
-//            Airport airport1 = airport.get();
-//            if(airportRequest.getName() != null){
-//                airport1.setName(airportRequest.getName());
-//            }
-//            if(airportRequest.getAirportCode() != null){
-//                airport1.setAirportCode(airportRequest.getAirportCode());
-//            }
-//            if(airportRequest.getLanguage() != null){
-//                airport1.setLanguage(airportRequest.getLanguage());
-//            }
-//            if(airportRequest.getPriority() != null) {
-//                airport1.setPriority(airportRequest.getPriority());
-//            }
-//            airportRepository.save(airport1);
-//        }
-//        else {
-//            throw new EntityNotFoundException("Airport not found");
-//
-//        }
         Airport airport = airportRepository.findById(iata).orElseThrow(() -> new RuntimeException("Airport not found"));
         if(airportRequest.getName() != null){
             airport.setName(airportRequest.getName());

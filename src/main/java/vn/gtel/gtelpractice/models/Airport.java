@@ -11,7 +11,6 @@ import lombok.Setter;
 @Entity
 public class Airport {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String iata;
     private String name;
     private String airportCode;
