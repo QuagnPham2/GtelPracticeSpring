@@ -73,4 +73,22 @@ public class AirportController {
         airportService.deleteAirport(iata);
         return ResponseEntity.ok("Airport deleted successfully");
     }
+
+
+    //Native Query
+    @GetMapping("/searchNative")
+    public ApiResponse<List<Airport>> searchAirports(@RequestParam String keyword){
+        ApiResponse<List<Airport>> apiResponse = new ApiResponse();
+        apiResponse.setResult(airportService.searchAirportN(keyword));
+        return apiResponse;
+    }
+
+
+    //Custom Query
+    @GetMapping("/searchCustom")
+    public ApiResponse<List<Airport>> searchAirportCustom(@RequestParam String keyword){
+        ApiResponse<List<Airport>> apiResponse = new ApiResponse();
+        apiResponse.setResult(airportService.searchAirportC(keyword));
+        return apiResponse;
+    }
 }

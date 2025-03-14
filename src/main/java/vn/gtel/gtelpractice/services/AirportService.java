@@ -97,4 +97,15 @@ public class AirportService {
         }
         return airportRepository.save(airport);
     }
+
+    //Native Query
+    public List<Airport> searchAirportN (String keyword) {
+        return airportRepository.searchAirports(keyword);
+    }
+
+
+    //Custom Query
+    public List<Airport> searchAirportC (String keyword) {
+        return airportRepository.searchAirportsCustom(keyword);
+    }
 }
